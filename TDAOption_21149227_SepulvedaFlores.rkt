@@ -2,6 +2,8 @@
 
 ; TDA_Option
 
+(provide (all-defined-out))
+
 ; Constructor option
 ; Esta función construye una option que está formada por una lista que contiene:
 ; un codigo, un mensaje, un codigo para linkear los chatbots, un codigo inicial para linkear los flow
