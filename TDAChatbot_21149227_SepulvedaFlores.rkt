@@ -7,7 +7,7 @@
 
 ; Requerimiento Funcional N°5
 
-; Constructor Chatbot
+; Constructor del Chatbot
 ; Esta función construye un chatbot que está formado por una lista que contiene:
 ; un chatbotId, un nombre, un mensaje de bienvenida, un startFlowId y 0, 1 o multiples flows
 
