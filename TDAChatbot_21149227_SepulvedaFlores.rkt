@@ -7,7 +7,7 @@
 
 ; Requerimiento Funcional N°5
 
-; Constructor del Chatbot
+; Constructor Chatbot
 ; Esta función construye un chatbot que está formado por una lista que contiene:
 ; un chatbotId, un nombre, un mensaje de bienvenida, un startFlowId y 0, 1 o multiples flows
 
@@ -65,3 +65,33 @@
 
 (define (get-flows-cb chatbot)
   (car(reverse chatbot)))
+
+
+
+
+; Requerimiento Funcional N°6
+
+; Modificador Chatbot: chatbot-add-flow
+; Esta función agrega un flow al final de la lista de flows del chatbot, también verifica que
+; los flows agregados no se repitan en base al id 
+
+; Dominio: chatbot X flow
+
+; Recorrido: Chatbot
+
+; Recursión: Natural
+
+(define (chatbot-add-flow chatbot flow)
+  (define (add-final flows flow)
+    (if (= (length flows) 0)
+        (list flow)
+        (cons (car flows)(add-final (cdr flows) flow))))
+  (list (get-id-cb chatbot)
+        (get-name-cb chatbot)
+        (get-WelcomeM-cb chatbot)
+        (get-sFL-cb)
+        (remove-duplicates(add-final (get-flows-cb chatbot) flow)#:key car)))
+
+
+
+
