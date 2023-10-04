@@ -18,7 +18,7 @@
 
 ; Dominio: name (string) X InitialChatbotCodeLink (Int) X chatbot*
 
-; Recorrido: System
+; Recorrido:System
 
 ; Recursión: No aplica
 
