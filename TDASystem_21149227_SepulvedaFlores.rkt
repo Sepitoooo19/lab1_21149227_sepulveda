@@ -54,6 +54,27 @@
 
 
 
+; Requerimiento Funcional N°8
+
+; Modificador System - system-add-chatbot
+; Esta función añade chatbots al sistema ya creado,
+; además de verificar que el chatbot añadido no exista dentro del sistema,
+; eso quiere decir que si el chatbot ya existe dentro de este, no se agrega, caso contrario,
+; si se agrega
+
+; Dominio: System X Chatbot
+
+; Recorrido: System
+
+; Recursión: No aplica
+
+(define (system-add-chatbot system . chatbot)
+  (if (= (get-id-cb(car(get-chatbot-list system)))(get-id-cb(car chatbot))) system
+      (cons (get-name-system system)
+            (cons (get-ICCL-system system)
+                  (cons (append(get-chatbot-list system)
+                               chatbot) null)))))
+
 
 
 
