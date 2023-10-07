@@ -2,6 +2,7 @@
 (require "TDAOption_21149227_SepulvedaFlores.rkt")
 (require "TDAFlow_21149227_SepulvedaFlores.rkt")
 (require "TDAChatbot_21149227_SepulvedaFlores.rkt")
+(require "TDAUser_21149227:_SepulvedaFlores.rkt")
 (provide (all-defined-out))
 
 
@@ -25,6 +26,18 @@
 (define (system name InitialChatbotCodeLink . chatbot)
   (list name InitialChatbotCodeLink '() '() (remove-duplicates chatbot #:key car)))
 
+
+
+; Función complementaria no pedida en el laboratorio:
+
+; Constructor System-user
+
+; Esta función construye un system que está formado por una lista que contiene:
+; un name, un InitialChatbotCodeLink y 0, 1 o multiples chatbots.
+; En este caso, el constructor del system tambien posee en su dominio, además de los argumentos anteriores, un user y un chatHistory
+
+(define(system-user name InitialChatbotCodeLink userList logedUserList chatbotList)
+  (list name InitialChatbotCodeLink userList logedUserList chatbotList))
 
 
 ; Selector - get-name-system
