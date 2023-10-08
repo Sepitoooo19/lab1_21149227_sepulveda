@@ -2,7 +2,7 @@
 (require "TDAOption_21149227_SepulvedaFlores.rkt")
 (require "TDAFlow_21149227_SepulvedaFlores.rkt")
 (require "TDAChatbot_21149227_SepulvedaFlores.rkt")
-(require "TDAUser_21149227:_SepulvedaFlores.rkt")
+(require "TDAUser_21149227_SepulvedaFlores.rkt")
 (provide (all-defined-out))
 
 
@@ -19,7 +19,7 @@
 
 ; Dominio: name (string) X InitialChatbotCodeLink (Int) X chatbot*
 
-; Recorrido:System
+; Recorrido: System
 
 ; Recursión: No aplica
 
@@ -57,13 +57,32 @@
   (cadr system))
 
 ; Selector - get-chatbot-list
+; Función de seleccionar/obtener la lista de usuarios registrados del system
+; Dominio: system
+; Recorrido: list
+
+
+(define (get-user-list system)
+  (caddr system))
+
+; Selector - get-chatbot-list
+; Función de seleccionar/obtener la lista de usuarios logeados del system
+; Dominio: system
+; Recorrido: list
+
+
+(define (get-logedUser-list system)
+  (cadddr system))
+
+
+; Selector - get-chatbot-list
 ; Función de seleccionar/obtener la lista de chatbots del system
 ; Dominio: system
 ; Recorrido: list
 
 
 (define (get-chatbot-list system)
-  (caddr system))
+  (car(reverse system)))
 
 
 
@@ -89,7 +108,26 @@
                                chatbot) null)))))
 
 
+; Requerimiento Funcional N°9
 
+; Modificador System - system-add-user
+; Esta funcion "registra" un usuario al sistema, además verifica que dicho usuario no esté registrado anteriormente
+
+; Dominio: system X user (string)
+
+; Recorrido: System
+
+; Recursión: No aplica
+
+(define (system-add-user system userName)
+  (if (equal? (filter (equal-name-user userName) (get-user-list system)) '())
+      (system-user (get-name-system system)
+                   (get-ICCL-system system)
+                   (cons (user userName) (get-user-list system))
+                   (get-logedUser-list system)
+                   (get-chatbot-list system))
+      system
+      ))
 
 
 

@@ -25,3 +25,20 @@
 
 (define (get-name-user user)
   (car user))
+
+
+
+; FUNCION EXTERNA
+
+; Compara si el nombre del usuario (string) es igual al de un TDA User,
+; para esta función se utiliza currificación
+; Esta funcion es utilizada en el RF9 y RF10 por el momento
+
+; Dominio: user (string) x Tda User
+; Recorrido: Bool
+; Recursion: No aplica
+
+(define equal-name-user (lambda (a)
+                          (lambda (b)
+                            (if (string=? a (car b)) #t #f))))
+
