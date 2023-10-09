@@ -3,6 +3,7 @@
 (require "TDAFlow_21149227_SepulvedaFlores.rkt")
 (require "TDAChatbot_21149227_SepulvedaFlores.rkt")
 (require "TDAUser_21149227_SepulvedaFlores.rkt")
+(require "TDAChatHistory_21149227_SepulvedaFlores.rkt")
 (provide (all-defined-out))
 
 
@@ -24,7 +25,7 @@
 ; Recursión: No aplica
 
 (define (system name InitialChatbotCodeLink . chatbot)
-  (list name InitialChatbotCodeLink '() '() (remove-duplicates chatbot #:key car)))
+  (list name InitialChatbotCodeLink '() '() '() (remove-duplicates chatbot #:key car)))
 
 
 
@@ -36,8 +37,8 @@
 ; un name, un InitialChatbotCodeLink y 0, 1 o multiples chatbots.
 ; En este caso, el constructor del system tambien posee en su dominio, además de los argumentos anteriores, un user y un chatHistory
 
-(define(system-user name InitialChatbotCodeLink userList logedUserList chatbotList)
-  (list name InitialChatbotCodeLink userList logedUserList chatbotList))
+(define(system-user name InitialChatbotCodeLink userList logedUserList chatHistoryList chatbotList)
+  (list name InitialChatbotCodeLink userList logedUserList chatHistoryList chatbotList))
 
 
 ; Selector - get-name-system
@@ -75,6 +76,15 @@
   (cadddr system))
 
 
+; Selector - get-chatHistoryList-list
+; Función de seleccionar/obtener la lista de historiales del system
+; Dominio: system
+; Recorrido: list
+
+
+(define (get-chatHistory-list system)
+  (cadr(reverse system)))
+
 ; Selector - get-chatbot-list
 ; Función de seleccionar/obtener la lista de chatbots del system
 ; Dominio: system
@@ -83,6 +93,7 @@
 
 (define (get-chatbot-list system)
   (car(reverse system)))
+
 
 
 
@@ -125,9 +136,113 @@
                    (get-ICCL-system system)
                    (cons (user userName) (get-user-list system))
                    (get-logedUser-list system)
+                   (get-chatHistory-list system)
                    (get-chatbot-list system))
       system
       ))
+
+; Requerimiento Funcional N°10
+
+; Modificador System - system-login
+; Esta funcion "logea" un usuario al sistema, además verifica que dicho usuario esté registrado anteriormente y que no haya otro
+; usuario logeado
+
+; Dominio: system X user (string)
+
+; Recorrido: System
+
+; Recursión: No aplica
+(define (system-login system userName)
+  (if(and (not (equal?(filter (equal-name-user userName) (get-user-list system)) '())) (empty? (get-logedUser-list system)))
+      (system-user (get-name-system system)
+                    (get-ICCL-system system)
+                    (get-user-list system)
+                    (append  (get-logedUser-list system) (user userName))
+                    (get-chatHistory-list system)
+                    (get-chatbot-list system))
+       system
+       ))
+
+
+
+; Requerimiento Funcional N°11
+
+; Modificador System - system-logout
+; Esta funcion "deslogea" un usuario del sistema 
+
+; Dominio: system X user (string)
+
+; Recorrido: System
+
+; Recursión: No aplica
+(define (system-logout system)
+        (system-user (get-name-system system)
+                    (get-ICCL-system system)
+                    (get-user-list system)
+                    '()
+                    (get-chatHistory-list system)
+                    (get-chatbot-list system)))
+
+
+
+; Requerimiento Funcional N°12
+; Funcion TDA_System - system-talk-rec
+; Esta funcion interactua con el sistema y los chatbots de manera recursiva, cabe destacar que solo se pudo implementar para el caso base
+
+; Dominio: system X message (string)
+
+; Recorrido: System
+
+; Recursión: Natural
+(define(system-talk-rec system message)
+  (if(empty?(get-logedUser-list system)) system
+     (if (or(equal? message "hola")(equal? message (number->string 0)))(car(get-chatbot-list system))
+         system))
+  (system-user (get-name-system system)
+               (get-ICCL-system system)
+               (get-user-list system)
+               (get-logedUser-list system)
+               (cons (car (get-logedUser-list system)) (cons(get-chatHistory-list system) (cons (car(get-chatbot-list system)) null))) 
+               (get-chatbot-list system)))
+
+
+; Requerimiento Funcional N°13
+; Funcion TDA_System - system-talk-rec
+; Esta funcion interactua con el sistema y los chatbots de manera declarativa y se añade al chatHistory,
+; cabe destacar que solo se pudo implementar para el caso base
+
+; Dominio: system X message (string)
+
+; Recorrido: System
+
+; Recursión: no aplica
+
+(define (system-talk-norec system message)
+  (if(empty?(get-logedUser-list system)) system
+     (if (or(equal? message "hola")(equal? message (number->string 0)))(car(get-chatbot-list system))
+         system))
+  (system-user (get-name-system system)
+               (get-ICCL-system system)
+               (get-user-list system)
+               (get-logedUser-list system)
+               (cons (car (get-logedUser-list system)) (cons(get-chatHistory-list system) (cons (car(get-chatbot-list system)) null))) 
+               (get-chatbot-list system))) 
+
+
+
+
+
+
+
+;(define (search-flow flows message)
+;  (if (empty? (get-flows-cb(get-chatbot-list flows))) '()
+;      (if (not(equal? (get-CBCL-op(get-ops-flow (get-flows-cb(get-chatbot-list flows)))) (string->number message))) (cons (car flows)(search-flow message (cdr flows)))
+;          (if (equal? (get-id-cb(get-chatbot-list flows)) (get-CBCL-op(get-ops-flow (get-flows-cb(get-chatbot-list flows))))) chatbot
+;              (cons (car (get-chatbot-list flows))(cons (search-flow message (cdr (get-chatbot-list flows))) null))))))   
+          
+          
+
+
 
 
 

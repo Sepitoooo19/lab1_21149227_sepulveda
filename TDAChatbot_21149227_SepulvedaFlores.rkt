@@ -67,8 +67,6 @@
   (car(reverse chatbot)))
 
 
-
-
 ; Requerimiento Funcional N°6
 
 ; Modificador Chatbot: chatbot-add-flow
@@ -89,7 +87,7 @@
   (list (get-id-cb chatbot)
         (get-name-cb chatbot)
         (get-WelcomeM-cb chatbot)
-        (get-sFL-cb)
+        (get-sFL-cb chatbot)
         (remove-duplicates(add-final (get-flows-cb chatbot) flow)#:key car)))
 
 

@@ -32,7 +32,7 @@
 (define (get-id-flow flow)
   (car flow))
 
-; Selector - get-namemsg-op
+; Selector - get-namemsg-flow
 ; Función de seleccionar/obtener el nombre del flow 
 ; Dominio: flow
 ; Recorrido: string
@@ -40,7 +40,7 @@
 (define (get-namemsg-flow flow)
   (cadr flow))
 
-; Selector - get-code-op
+; Selector - get-ops-flow
 ; Función de seleccionar/obtener el codigo de la option
 ; Dominio: flow
 ; Recorrido: list
